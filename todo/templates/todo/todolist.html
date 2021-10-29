@@ -1,0 +1,30 @@
+{% extends "blog/base.html" %}
+{% block content %}
+    <h2>My family TO DO LIST</h2>
+    <form action="/addToDoItem/" method = "post">
+        <div class="form-group"> 
+            <label>A new task</label>
+            {% csrf_token %}
+            <input type="text" class="form-control" placeholder="Type the new task here" name="content">
+            <small class="form-text text-muted">The task is typed to be done!</small>
+            <button class="btn btn-outline-info" type="submit">Add</button>
+        </div>
+    </form>
+    <br/>
+    <h4>The outstanding list</h4>
+    {% for item in all_items %}
+        <article class="media content-section">
+            <div class="media-body">
+                <p class="article-content">{{ item.content }}</p>
+                <small class="form-text text-muted">added by {{ item.creator }} on {{ item.date_added|date:"j F" }}</small>
+            </div>
+            <form action="/doneToDoItem/{{item.id}}/" method = "post">
+            {% csrf_token %}
+            <button class="btn btn-outline-info" type="submit">Done</button>
+            </form>  
+        </article>
+    {% endfor %}
+
+         
+
+{% endblock content %}
